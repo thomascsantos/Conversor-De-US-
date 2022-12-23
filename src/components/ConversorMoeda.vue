@@ -1,8 +1,8 @@
 <template>
     <div class="conversor">
         <h2>{{ moedaA }} Para {{ moedaB }}</h2>
-        <input type="text" v-model="moedaA_value" v-bind:placeholder="moedaA">
-        <input type="button" value="Converter" @click="converter">
+        <input type="text" v-model="moedaA_value" v-bind:placeholder="moedaA" id="valor">
+        <input type="button" value="Converter" @click="converter" >
         <h2>{{ moedaB_value }}</h2>
     </div>
 </template>
@@ -26,9 +26,20 @@ export default {
                     return res.json()
                 })
                 .then((data) => {
-                    console.log(data.USDBRL.ask)
+                    let input = document.getElementById("valor")
+                    console.log(input)
+                    let valor = input.value
+                    console.log(valor)
                     let cotacao = data.USDBRL.ask
-                    this.moedaB_value = (cotacao*parseFloat(this.moedaA_value)).toFixed(2)
+                    console.log(cotacao)
+                    if (valor != "" && valor > 0) {
+                        this.moedaB_value = (cotacao * parseFloat(this.moedaA_value)).toFixed(2)
+                        console.log("if")
+                    } else {
+                        this.moedaB_value = "Não possivel converter valor negativo ou vazio"
+                        console.log("else")
+                    }
+
                 })
         }
     }
@@ -38,6 +49,5 @@ export default {
 
 
 <style scoped>
-
 
 </style>
